@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# Node/Frontend
+node_modules/
+dist/
+.env
+.DS_Store
+
+# Dataset (Too large for GitHub)
+Training_Dataset/
+backend/models/*.joblib
+
+# IDE
+.vscode/
+.idea/

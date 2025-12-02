@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paperclip } from 'lucide-react';
+import { Paperclip, Search } from 'lucide-react';
 import axios from 'axios';
 
 const InputArea = ({ onAnalyze }) => {
@@ -33,18 +33,27 @@ const InputArea = ({ onAnalyze }) => {
 
     return (
         <div className="input-area">
-            <div className="drop-zone">
-                {/* Placeholder for drop zone visual */}
-                <span>Drag & Drop files here</span>
+            <div className={`drop-zone ${loading ? 'scanning-active' : ''}`}>
+                <div className="drop-icon-circle">
+                    <Paperclip size={32} />
+                </div>
+                {loading ? (
+                    <span style={{ fontSize: '1.2rem', fontWeight: 600, color: 'var(--primary-color)' }}>Scanning...</span>
+                ) : (
+                    <>
+                        <span style={{ fontSize: '1.1rem', fontWeight: 500, color: 'var(--text-main)' }}>Drag & Drop files here</span>
+                        <span style={{ fontSize: '0.9rem', marginTop: '8px', color: 'var(--text-muted)' }}>or paste text below</span>
+                    </>
+                )}
             </div>
 
             <div className="input-bar-container">
-                <Paperclip className="input-icon" size={20} />
+                <Search className="input-icon" size={20} />
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
                         className="input-bar"
-                        placeholder="Paste an email, URL, or message to check for phishing"
+                        placeholder="Paste an email, URL, or message to analyze..."
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
                         disabled={loading}
@@ -53,7 +62,8 @@ const InputArea = ({ onAnalyze }) => {
             </div>
 
             <p className="disclaimer">
-                PhishGuard provides AI-powered phishing awareness and checks using public threat intelligence. Results may not be 100% accurate.
+                PhishGuard uses advanced AI and threat intelligence to detect phishing attempts.
+                Always verify sensitive requests through official channels.
             </p>
         </div>
     );
