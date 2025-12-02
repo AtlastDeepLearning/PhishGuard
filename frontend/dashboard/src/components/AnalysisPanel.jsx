@@ -1,7 +1,7 @@
 import React from 'react';
 import { X, ChevronRight, AlertTriangle, CheckCircle, Info, Trash2 } from 'lucide-react';
 
-const AnalysisPanel = ({ result, onClear, onClose }) => {
+const AnalysisPanel = ({ result, onClear, onClose, isChatMode = false }) => {
     if (!result) return null;
 
     const { analysis, action } = result;
@@ -19,16 +19,20 @@ const AnalysisPanel = ({ result, onClear, onClose }) => {
     }
 
     return (
-        <div className="analysis-panel animate-slide-in">
-            <div className="splitter-btn" onClick={onClose}>
-                <ChevronRight size={24} />
-            </div>
+        <div className={`analysis-panel ${isChatMode ? 'chat-mode' : 'animate-slide-in'}`}>
+            {!isChatMode && (
+                <div className="splitter-btn" onClick={onClose}>
+                    <ChevronRight size={24} />
+                </div>
+            )}
 
             <div className="panel-header">
                 <span>Analysis Report</span>
-                <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
-                    <X size={20} />
-                </button>
+                {!isChatMode && (
+                    <button onClick={onClose} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
+                        <X size={20} />
+                    </button>
+                )}
             </div>
 
             <div className="result-card">
@@ -63,10 +67,12 @@ const AnalysisPanel = ({ result, onClear, onClose }) => {
                 </div>
             </div>
 
-            <button className="clear-btn" onClick={onClear}>
-                <Trash2 size={18} />
-                <span>Clear Results</span>
-            </button>
+            {!isChatMode && (
+                <button className="clear-btn" onClick={onClear}>
+                    <Trash2 size={18} />
+                    <span>Clear Results</span>
+                </button>
+            )}
         </div>
     );
 };

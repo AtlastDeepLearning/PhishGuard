@@ -6,17 +6,16 @@ import ThreatMap from './components/ThreatMap';
 import './index.css';
 
 function App() {
-  const [analysisResult, setAnalysisResult] = useState(null);
-  const [isPanelOpen, setIsPanelOpen] = useState(true);
+  const [chatHistory, setChatHistory] = useState([]);
   const [currentView, setCurrentView] = useState('scan'); // 'scan', 'map', 'settings'
 
-  const handleAnalysis = (result) => {
-    setAnalysisResult(result);
-    setIsPanelOpen(true);
-  };
-
-  const clearAnalysis = () => {
-    setAnalysisResult(null);
+  const handleAnalysis = (userMessage, result) => {
+    const newHistory = [
+      ...chatHistory,
+      { type: 'user', content: userMessage },
+      { type: 'bot', content: result }
+    ];
+    setChatHistory(newHistory);
   };
 
   return (
@@ -24,16 +23,10 @@ function App() {
       <Sidebar currentView={currentView} onNavigate={setCurrentView} />
       <div className="main-content">
         {currentView === 'scan' && (
-          <>
-            <InputArea onAnalyze={handleAnalysis} />
-            {isPanelOpen && (
-              <AnalysisPanel
-                result={analysisResult}
-                onClear={clearAnalysis}
-                onClose={() => setIsPanelOpen(false)}
-              />
-            )}
-          </>
+          <InputArea
+            chatHistory={chatHistory}
+            onAnalyze={handleAnalysis}
+          />
         )}
 
         {currentView === 'map' && <ThreatMap />}
